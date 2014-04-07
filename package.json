@@ -1,0 +1,11 @@
+{
+  "name": "png-reporter",
+  "version": "0.0.0",
+  "description": "A png reporter for ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jinto Jose<jintoppy@gmail.com>",
+  "license": "ISC"
+}
