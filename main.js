@@ -10,22 +10,17 @@ function traverseDOM(element) {
 		if (element.tagName == "BODY") {
 			formattedJson.push(elementNodeData);
 		}
-
-		if(VISIBILITY.isVisible(element)){
-			if (element.hasChildNodes()) {
-				var parentData = window.util.findDeep(formattedJson, elementNodeData);
-				if (parentData) {
+		var parentData = window.util.findDeep(formattedJson, elementNodeData);
+		if(VISIBILITY.isVisible(element) && element.hasChildNodes() && parentData){
+			for (var i = 0; i < element.childNodes.length; i++) {
+				var node = element.childNodes[i];
+				if (util.isValidElement(node)) {
+					nodeData = window.util.getNodeData(node);
 					if (!parentData.childNodes) {
 						parentData.childNodes = [];
 					}
-					for (var i = 0; i < element.childNodes.length; i++) {
-						var node = element.childNodes[i];
-						if (util.isValidElement(node)) {
-							nodeData = window.util.getNodeData(node);
-							parentData.childNodes.push(nodeData);
-							traverseDOM(node);
-						}
-					}
+					parentData.childNodes.push(nodeData);
+					traverseDOM(node);
 				}
 			}
 		}
@@ -34,20 +29,21 @@ function traverseDOM(element) {
 
 var expectJsonObj=[];
 function createExpectationObject(jsonObj){
-		if(jsonObj && jsonObj.childNodes && jsonObj.childNodes.length>0){
-				var obj={};
-				obj["selector"] = jsonObj.selector;
-				obj.top={};
-				obj.left={};
-				expectJsonObj.push(obj);
-			for(var i=0;i<jsonObj.childNodes.length;i++){
-				var currentObj = jsonObj.childNodes[i];
-				obj.top[currentObj.selector] = Math.abs(currentObj.y-jsonObj.y);
-				obj.left[currentObj.selector] = Math.abs(currentObj.x-jsonObj.x);
-				createExpectationObject(currentObj);
-			}
-			
+	var obj, currentObj;
+	if(jsonObj && jsonObj.childNodes && jsonObj.childNodes.length>0){
+			obj={};
+			obj["selector"] = jsonObj.selector;
+			obj.top={};
+			obj.left={};
+			expectJsonObj.push(obj);
+		for(var i=0;i<jsonObj.childNodes.length;i++){
+			currentObj = jsonObj.childNodes[i];
+			obj.top[currentObj.selector] = Math.abs(currentObj.y-jsonObj.y);
+			obj.left[currentObj.selector] = Math.abs(currentObj.x-jsonObj.x);
+			createExpectationObject(currentObj);
 		}
+		
+	}
 
 }
 
