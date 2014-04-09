@@ -46,6 +46,7 @@ var REPORTER = (function(){
 		jQuery('body').append(div);
 
 	};
+		
 
 	var generateReport = function(expectation){
 		var totalFailures = 0;
@@ -55,9 +56,9 @@ var REPORTER = (function(){
 			if(currNode.length>0){
 				var currObjPos = util.getPosition(currNode[0]);
 				_.each(currObj.top, function(value,key){
-					var nodeToBeComparedForLeft = jQuery(key);
-					if(nodeToBeComparedForLeft.length>0){
-						var posToBeCompared = util.getPosition(nodeToBeComparedForLeft[0]);
+					var nodeToBeComparedForTop = jQuery(key);
+					if(nodeToBeComparedForTop.length>0){
+						var posToBeCompared = util.getPosition(nodeToBeComparedForTop[0]);
 						if(Math.abs(currObjPos.y-posToBeCompared.y) != value){
 							totalFailures++;
 							createTopFailureLine(currObjPos, posToBeCompared);
@@ -66,9 +67,9 @@ var REPORTER = (function(){
 				});
 
 				_.each(currObj.left, function(value,key){
-					var nodeToBeComparedForTop = jQuery(key);
-					if(nodeToBeComparedForTop.length>0){
-						var posToBeCompared = util.getPosition(nodeToBeComparedForTop[0]);
+					var nodeToBeComparedForLeft = jQuery(key);
+					if(nodeToBeComparedForLeft.length>0){
+						var posToBeCompared = util.getPosition(nodeToBeComparedForLeft[0]);
 						if(Math.abs(currObjPos.x-posToBeCompared.x) != value){
 							totalFailures++;
 							createLeftFailureLine(currObjPos, posToBeCompared);
